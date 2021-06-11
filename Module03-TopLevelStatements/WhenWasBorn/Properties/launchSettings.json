@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "WhenWasBorn": {
+      "commandName": "Project",
+      "commandLineArgs": "chew"
+    }
+  }
+}
