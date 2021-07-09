@@ -7,7 +7,7 @@ namespace FunctionsImprovements
     [MemoryDiagnoser]
     public class Benchmarks
     {
-        Collection<int> collection;
+        private Collection<int> collection;
 
         [GlobalSetup]
         public void GlobalSetup()
@@ -23,21 +23,19 @@ namespace FunctionsImprovements
                    collection.Find(i => i % value == 0) +
                    collection.Find(i => i % value == 0) +
                    collection.Find(i => i % value == 0);
-
         }
 
         [Benchmark(OperationsPerInvoke = 4)]
         [ArgumentsSource(nameof(Values))]
         public int Static_WithoutClosure(int value)
         {
-            static bool Modulo(int j, int i) => i % j == 0;
             // TODO: change the code below, so that the static lambda is used.
             // Notice that there's an overload for Find that allows passing the state.
             // Watch benchmarks for memory allocations.
-            return collection.Find(value, Modulo) +
-                   collection.Find(value, Modulo) +
-                   collection.Find(value, Modulo) +
-                   collection.Find(value, Modulo);
+            return collection.Find(value, static(j, i) => i % j == 0) +
+                   collection.Find(value, static(j, i) => i % j == 0) +
+                   collection.Find(value, static(j, i) => i % j == 0) +
+                   collection.Find(value, static(j, i) => i % j == 0);
         }
 
         public IEnumerable<int> Values()
