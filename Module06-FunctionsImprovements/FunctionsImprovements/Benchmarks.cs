@@ -30,13 +30,14 @@ namespace FunctionsImprovements
         [ArgumentsSource(nameof(Values))]
         public int Static_WithoutClosure(int value)
         {
+            static bool Modulo(int j, int i) => i % j == 0;
             // TODO: change the code below, so that the static lambda is used.
             // Notice that there's an overload for Find that allows passing the state.
             // Watch benchmarks for memory allocations.
-            return collection.Find(i => i % value == 0) +
-                   collection.Find(i => i % value == 0) +
-                   collection.Find(i => i % value == 0) +
-                   collection.Find(i => i % value == 0);
+            return collection.Find(value, Modulo) +
+                   collection.Find(value, Modulo) +
+                   collection.Find(value, Modulo) +
+                   collection.Find(value, Modulo);
         }
 
         public IEnumerable<int> Values()
