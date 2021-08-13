@@ -30,9 +30,10 @@ namespace LowLevelImprovements
 
             return new Guid(buffer1);
         }
-
+        
         // TODO: optimize this method by skipping initialization of locals and introducing a function pointer instead of a delegate
-        public static Guid After(Guid guid1, Guid guid2, Func<ulong, ulong, ulong> mixer)
+        [SkipLocalsInit]
+        public static unsafe Guid After(Guid guid1, Guid guid2, delegate*<ulong, ulong, ulong> mixer)
         {
             Span<byte> buffer1 = stackalloc byte[16];
             Span<byte> buffer2 = stackalloc byte[16];

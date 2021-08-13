@@ -12,9 +12,9 @@ namespace LowLevelImprovements
         static ulong Mix(ulong u1, ulong u2) => u1 ^ u2;
 
         [GlobalSetup]
-        public void GlobalSetup()
+        public unsafe void GlobalSetup()
         {
-            if (Mixer.Before(Guid1, Guid2, Mix) != Mixer.After(Guid1, Guid2, Mix))
+            if (Mixer.Before(Guid1, Guid2, Mix) != Mixer.After(Guid1, Guid2, &Mix))
             {
                 // this is a really dummy unit test :-)
                 throw new Exception("Implementation has changed!");
@@ -28,9 +28,9 @@ namespace LowLevelImprovements
         }
 
         [Benchmark()]
-        public Guid After()
+        public unsafe Guid After()
         {
-            return Mixer.After(Guid1, Guid2, Mix);
+            return Mixer.After(Guid1, Guid2, &Mix);
         }
     }
 }
